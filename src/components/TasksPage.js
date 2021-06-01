@@ -1,24 +1,25 @@
 import React, { Component } from "react"; 
 import TaskCollection from './TaskCollection';
 
+// const tasksUrl = 'http://localhost:3000/tasks';
+
 class TasksPage extends Component {
-    state = {
-        tasks: [],
-    }
+    // state = {
+    //     tasks: [],
+    // }
 
-
-    componentDidMount() {
-        fetch('http://localhost:3000/tasks')
-        .then(res => res.json())
-        .then(tasks => this.setState({tasks}))
-    }
+    // componentDidMount() {
+    //     fetch(tasksUrl)
+    //     .then(res => res.json())
+    //     .then(tasks => this.setState({tasks}))
+    // }
 
     render() {
         return (
         <div>
     
             <TaskCollection 
-            tasks={this.state.tasks}
+                tasks={this.props.tasks}
             />
         </div>
         )
