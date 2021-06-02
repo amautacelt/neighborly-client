@@ -1,6 +1,14 @@
 import React from "react";
+import EditTaskForm from "./EditTaskForm";
 
 const TaskCard = props => {
+
+    const editButton = () => {
+        // debugger
+        // console.log("hello")
+        <EditTaskForm />
+    }
+
     return (
         <div className="column">
             <div className="card">
@@ -8,7 +16,7 @@ const TaskCard = props => {
                 <p>Category: {props.task.category}</p>
                 <p>Description: {props.task.description}</p>
                 <p>Duration: {props.task.duration}</p>
-                <button className="edit-button">
+                <button className="edit-button" onClick={editButton}>
                     edit
                 </button>
                 <button className="delete-button">

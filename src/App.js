@@ -60,7 +60,7 @@ class App extends Component {
   
 
   updateTask = (task) => {
-    fetch(`${tasksURL}/${task.id}`, {
+    fetch(`${tasksUrl}/${task.id}`, {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
