@@ -58,6 +58,35 @@ class App extends Component {
     // <AddTaskForm options={this.state.categories} submitTask={this.submitNewTask}/>
   }
   
+
+  updateTask = (task) => {
+    fetch(`${tasksURL}/${task.id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({task})
+    })
+    .then(res => res.json())
+    .then(console.log)
+  }
+
+
+  deleteTask = (task) => {
+    fetch(`${tasksUrl}/${task.id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      }
+    })
+    .then(() => {
+      
+    })
+  }
+
+
   render() {
     return (
       <div className="App">
