@@ -17,6 +17,8 @@ class App extends Component {
     category: "",
     hasVolunteerFilter: false,
     tasks: [],
+    showForm: false,
+    buttonLabel: "Add Task"
   }
 
   componentDidMount() {
@@ -48,11 +50,20 @@ class App extends Component {
     .then(console.log)
     // debugger
   }
+
+  showForm = () => {
+    console.log('showing form');
+    this.setState({showForm: !this.state.showForm, buttonLabel: this.state.buttonLabel === "Add Task" ? "Hide Form" : "Add Task"});
+
+    // <AddTaskForm options={this.state.categories} submitTask={this.submitNewTask}/>
+  }
   
   render() {
     return (
       <div className="App">
-        <AddTaskForm options={this.state.categories} submitTask={this.submitNewTask}/>
+        <button onClick={this.showForm}> {this.state.buttonLabel}</button>
+        {this.state.showForm ? <AddTaskForm options={this.state.categories} submitTask={this.submitNewTask}/> : null}
+
         <FilterBar options={this.state.categories} 
                    filterTaskCategory={this.filterTaskCategory}
                    filterHasVolunteer={this.filterHasVolunteer}/>
