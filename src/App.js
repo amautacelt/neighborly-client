@@ -2,8 +2,13 @@ import "./App.css";
 import React, { Component } from "react";
 import TasksPage from "./components/TasksPage";
 import FilterBar from "./components/FilterBar";
+import AddTaskForm from "./components/AddTaskForm";
 
 const tasksUrl = 'http://localhost:3000/tasks';
+const headers = {
+  'Content-Type': 'application/json',
+  Accepts: 'application/json'
+}
 
 class App extends Component {
 
@@ -30,10 +35,24 @@ class App extends Component {
   filterHasVolunteer = () => {
     this.setState({hasVolunteerFilter: !this.state.hasVolunteerFilter})
   }
+
+  submitNewTask = (newtask) => {
+    newtask.user_id = 1;
+    newtask.has_volunteer = false;
+    fetch(tasksUrl, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify(newtask)
+    })
+    .then(res => res.json())
+    .then(console.log)
+    // debugger
+  }
   
   render() {
     return (
       <div className="App">
+        <AddTaskForm options={this.state.categories} submitTask={this.submitNewTask}/>
         <FilterBar options={this.state.categories} 
                    filterTaskCategory={this.filterTaskCategory}
                    filterHasVolunteer={this.filterHasVolunteer}/>
