@@ -20,7 +20,6 @@ class App extends Component {
       .then(tasks => {
         this.createCategories(tasks);
         this.setState({tasks})
-        console.log(tasks)
       })
   }
   
@@ -30,8 +29,6 @@ class App extends Component {
 
   filterHasVolunteer = () => {
     this.setState({hasVolunteerFilter: !this.state.hasVolunteerFilter})
-    // const tasksWithoutVolunteers = this.state.tasks.filter(this.statetask => task.has_volunteer)
-    // console.log(tasksWithoutVolunteers)
   }
   
   render() {
@@ -44,7 +41,7 @@ class App extends Component {
           this.state.tasks.filter(this.state.category !== "" 
                                   ? (task => task.category === this.state.category) 
                                   : (task => task))
-                          .filter(this.state.hasVolunteerFilter ? task => task.has_volunteer : task => task)
+                          .filter(this.state.hasVolunteerFilter ? task => !task.has_volunteer : task => task)
         }
         />
       </div>
