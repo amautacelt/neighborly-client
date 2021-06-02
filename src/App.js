@@ -10,7 +10,7 @@ class App extends Component {
   state = {
     categories: [],
     category: "",
-    hasVolunteer: false,
+    hasVolunteerFilter: false,
     tasks: [],
   }
 
@@ -20,22 +20,32 @@ class App extends Component {
       .then(tasks => {
         this.createCategories(tasks);
         this.setState({tasks})
+        console.log(tasks)
       })
   }
   
-  filterTasks = (filterValue, filterName) => {
-    this.setState({[filterName]: filterValue})
-    // filterValue == "" ? this.setState({[filterName]: ""}) : this.setState({[filterName]: filterValue})
+  filterTaskCategory = (category) => {
+    this.setState({category})
+  }
+
+  filterHasVolunteer = () => {
+    this.setState({hasVolunteerFilter: !this.state.hasVolunteerFilter})
+    // const tasksWithoutVolunteers = this.state.tasks.filter(this.statetask => task.has_volunteer)
+    // console.log(tasksWithoutVolunteers)
   }
   
   render() {
     return (
       <div className="App">
-        <FilterBar options={this.state.categories} filterTasks={this.filterTasks}/>
+        <FilterBar options={this.state.categories} 
+                   filterTaskCategory={this.filterTaskCategory}
+                   filterHasVolunteer={this.filterHasVolunteer}/>
         <TasksPage tasks={
-          this.state.category !== "" 
-          ? this.state.tasks.filter(task => task.category === this.state.category) 
-          : this.state.tasks}
+          this.state.tasks.filter(this.state.category !== "" 
+                                  ? (task => task.category === this.state.category) 
+                                  : (task => task))
+                          .filter(this.state.hasVolunteerFilter ? task => task.has_volunteer : task => task)
+        }
         />
       </div>
     );
