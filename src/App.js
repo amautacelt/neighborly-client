@@ -48,14 +48,11 @@ class App extends Component {
     })
     .then(res => res.json())
     .then(console.log)
-    // debugger
   }
 
   showForm = () => {
     console.log('showing form');
     this.setState({showForm: !this.state.showForm, buttonLabel: this.state.buttonLabel === "Add Task" ? "Hide Form" : "Add Task"});
-
-    // <AddTaskForm options={this.state.categories} submitTask={this.submitNewTask}/>
   }
   
   render() {
@@ -72,7 +69,7 @@ class App extends Component {
                                   ? (task => task.category === this.state.category) 
                                   : (task => task))
                           .filter(this.state.hasVolunteerFilter ? task => !task.has_volunteer : task => task)
-        }
+          }
         />
       </div>
     );
