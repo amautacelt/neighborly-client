@@ -5,7 +5,7 @@ const FilterBar = (props) => {
         <hr></hr>
         {/* Category of Task  */}
         <select name='category' onChange={(event) => props.filterTasks(event.target.value, event.target.name)}>
-            <option selected disabled>Choose Category</option>
+            <option selected value="">Choose Category</option>
             {props.options.map(option => {
                 return <option key={option} value={option}>{option}</option>
             })}

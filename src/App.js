@@ -25,13 +25,18 @@ class App extends Component {
   
   filterTasks = (filterValue, filterName) => {
     this.setState({[filterName]: filterValue})
+    // filterValue == "" ? this.setState({[filterName]: ""}) : this.setState({[filterName]: filterValue})
   }
   
   render() {
     return (
       <div className="App">
         <FilterBar options={this.state.categories} filterTasks={this.filterTasks}/>
-        <TasksPage tasks={this.state.tasks}/>
+        <TasksPage tasks={
+          this.state.category !== "" 
+          ? this.state.tasks.filter(task => task.category === this.state.category) 
+          : this.state.tasks}
+        />
       </div>
     );
   }
