@@ -20,7 +20,7 @@ class TasksPage extends Component {
         return (
         <div>
             <FilterBar 
-                options={this.props.options} 
+                options={this.props.categories} 
                 filterTaskCategory={this.props.filterTaskCategory}
                 filterHasVolunteer={this.props.filterHasVolunteer}/>
             <Link to={'/tasks/new'}> Add New Task </Link>

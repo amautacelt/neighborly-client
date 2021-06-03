@@ -113,9 +113,10 @@ class App extends Component {
                 .filter(this.state.hasVolunteerFilter 
                   ? task => !task.has_volunteer 
                   : task => task)}
-                  options={this.state.categories}
+                  categories={this.state.categories}
                   filterTaskCategory={this.filterTaskCategory}
                   filterHasVolunteer={this.filterHasVolunteer}
+                  updateTask={this.updateTask}
                   />
                 }
             />
