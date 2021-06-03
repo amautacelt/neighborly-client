@@ -3,10 +3,13 @@ import { Component } from "react";
 export default class EditTaskForm extends Component{
 
     state = {
-        name: '',
-        duration: '',
-        description: '',
-        category: ''
+        id: this.props.task.id,
+        name: this.props.task.name,
+        duration: this.props.task.duration,
+        description: this.props.task.description,
+        category: this.props.task.category,
+        user_id: this.props.task.user_id,
+        volunteer: this.props.task.has_volunteer
     }
 
     handleSubmit = (event) => {
@@ -16,7 +19,7 @@ export default class EditTaskForm extends Component{
 
     render(){
         return(
-            <div>FORM
+            <div>Edit Form
                 <form onSubmit={this.handleSubmit}>
                     <label> Name of Task
                         <input type='text' name='name' placeholder='Name' value={this.state.name} 
@@ -42,7 +45,7 @@ export default class EditTaskForm extends Component{
                         </select>
                     </label>
                     <br></br>
-                    <input type='submit' value='Submit New Task'/>
+                    <input type='submit' value='Edit This Task'/>
                 </form>
             </div>
         )

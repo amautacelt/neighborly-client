@@ -69,7 +69,12 @@ class App extends Component {
       body: JSON.stringify({task})
     })
     .then(res => res.json())
-    .then(console.log)
+    .then((newTask) => {
+      this.setState({
+        tasks: this.state.tasks.map((t) => (t.id === newTask.id ? newTask : t)),
+      });
+    })
+    .catch(err => console.error(err));
   }
 
 
@@ -81,9 +86,12 @@ class App extends Component {
         'Accept': 'application/json'
       }
     })
-    .then(() => {
-      
-    })
+      .then(() => 
+        this.setState({
+          tasks: [...this.state.tasks.filter((t) => t !== task)],
+        })
+      )
+      .catch((err) => console.log(err))
   }
 
 
@@ -93,11 +101,12 @@ class App extends Component {
         <button onClick={this.showForm}> {this.state.buttonLabel}</button>
         {this.state.showForm ? <AddTaskForm options={this.state.categories} submitTask={this.submitNewTask}/> : null}
 
-        <FilterBar options={this.state.categories} 
-                   filterTaskCategory={this.filterTaskCategory}
-                   filterHasVolunteer={this.filterHasVolunteer}/>
-        <TasksPage tasks={
-          this.state.tasks.filter(this.state.category !== "" 
+        <FilterBar options={this.state.categories}
+                  filterTaskCategory={this.filterTaskCategory}
+                  filterHasVolunteer={this.filterHasVolunteer}/>
+        <TasksPage categories={this.state.categories}
+                  updateTask={this.updateTask}
+                  tasks={ this.state.tasks.filter(this.state.category !== "" 
                                   ? (task => task.category === this.state.category) 
                                   : (task => task))
                           .filter(this.state.hasVolunteerFilter ? task => !task.has_volunteer : task => task)

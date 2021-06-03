@@ -20,6 +20,8 @@ class TasksPage extends Component {
     
             <TaskCollection 
                 tasks={this.props.tasks}
+                categories={this.props.categories}
+                updateTask={this.props.updateTask}
             />
         </div>
         )
