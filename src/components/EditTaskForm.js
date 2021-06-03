@@ -38,7 +38,7 @@ export default class EditTaskForm extends Component{
                     <br></br>
                     <label> Category of Task
                         <select name='category' onChange={(event) => this.setState({category: event.target.value})}>Type of Task
-                            <option selected value={this.state.category}>{this.state.category}</option>
+                            <option selected disabled value={this.state.category}>{this.state.category}</option>
                             {this.props.options.map(option => {
                                 return <option key={option} value={option}>{option}</option>
                             })}
