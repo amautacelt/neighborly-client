@@ -62,6 +62,43 @@ class App extends Component {
   }
 
   
+
+  updateTask = (task) => {
+    fetch(`${tasksUrl}/${task.id}`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({task})
+    })
+    .then(res => res.json())
+    .then((newTask) => {
+      this.setState({
+        tasks: this.state.tasks.map((t) => (t.id === newTask.id ? newTask : t)),
+      });
+    })
+    .catch(err => console.error(err));
+  }
+
+
+  deleteTask = (task) => {
+    fetch(`${tasksUrl}/${task.id}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      }
+    })
+      .then(() => 
+        this.setState({
+          tasks: [...this.state.tasks.filter((t) => t !== task)],
+        })
+      )
+      .catch((err) => console.log(err))
+  }
+
+
   render() {
     return (
       <BrowserRouter>

@@ -26,6 +26,8 @@ class TasksPage extends Component {
             <Link to={'/tasks/new'}> Add New Task </Link>
             <TaskCollection 
                 tasks={this.props.tasks}
+                categories={this.props.categories}
+                updateTask={this.props.updateTask}
             />
         </div>
         )
