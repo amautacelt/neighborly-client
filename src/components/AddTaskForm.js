@@ -12,11 +12,12 @@ export default class AddTaskForm extends Component{
     handleSubmit = (event) => {
         event.preventDefault();
         this.props.submitTask(this.state);
+        this.props.history.push('/tasks')
     }
 
     render(){
         return(
-            <div>FORM
+            <div><h2>Add New Task</h2>
                 <form onSubmit={this.handleSubmit}>
                     <label> Name of Task
                         <input type='text' name='name' placeholder='Name' value={this.state.name} 

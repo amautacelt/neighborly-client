@@ -1,8 +1,10 @@
 import "./App.css";
 import React, { Component } from "react";
 import TasksPage from "./components/TasksPage";
-import FilterBar from "./components/FilterBar";
 import AddTaskForm from "./components/AddTaskForm";
+import {BrowserRouter, Route, Switch} from 'react-router-dom'
+import NavBar from "./components/NavBar";
+import UserPage from "./components/UserPage"
 
 const tasksUrl = 'http://localhost:3000/tasks';
 const headers = {
@@ -17,9 +19,18 @@ class App extends Component {
     category: "",
     hasVolunteerFilter: false,
     tasks: [],
-    showForm: false,
-    buttonLabel: "Add Task"
+    user: 1
   }
+  //set up log in function
+  //login = (state_from_form) => {
+    // fetch('http://localhost:3000/login', {
+    //   method: 'POST',
+    //   headers,
+    //   body: JSON.stringify(state.user)
+    // })
+    // .then(res => res.json())
+    // .then(user => this.setState({user}))
+  // }
 
   componentDidMount() {
       fetch(tasksUrl)
@@ -39,7 +50,7 @@ class App extends Component {
   }
 
   submitNewTask = (newtask) => {
-    newtask.user_id = 1;
+    newtask.user_id = this.state.user;
     newtask.has_volunteer = false;
     fetch(tasksUrl, {
       method: 'POST',
@@ -47,31 +58,40 @@ class App extends Component {
       body: JSON.stringify(newtask)
     })
     .then(res => res.json())
-    .then(console.log)
+    .then((newTask) => this.setState({tasks: [...this.state.tasks, newTask]}))
   }
 
-  showForm = () => {
-    console.log('showing form');
-    this.setState({showForm: !this.state.showForm, buttonLabel: this.state.buttonLabel === "Add Task" ? "Hide Form" : "Add Task"});
-  }
   
   render() {
     return (
-      <div className="App">
-        <button onClick={this.showForm}> {this.state.buttonLabel}</button>
-        {this.state.showForm ? <AddTaskForm options={this.state.categories} submitTask={this.submitNewTask}/> : null}
-
-        <FilterBar options={this.state.categories} 
-                   filterTaskCategory={this.filterTaskCategory}
-                   filterHasVolunteer={this.filterHasVolunteer}/>
-        <TasksPage tasks={
-          this.state.tasks.filter(this.state.category !== "" 
-                                  ? (task => task.category === this.state.category) 
-                                  : (task => task))
-                          .filter(this.state.hasVolunteerFilter ? task => !task.has_volunteer : task => task)
-          }
-        />
-      </div>
+      <BrowserRouter>
+        <div className="App">
+          <NavBar />
+          <Switch>
+            <Route exact path='/tasks' render={ () => <TasksPage 
+              tasks={
+                this.state.tasks.filter(this.state.category !== "" 
+                ? (task => task.category === this.state.category) 
+                : (task => task))
+                .filter(this.state.hasVolunteerFilter 
+                  ? task => !task.has_volunteer 
+                  : task => task)}
+                  options={this.state.categories}
+                  filterTaskCategory={this.filterTaskCategory}
+                  filterHasVolunteer={this.filterHasVolunteer}
+                  />
+                }
+            />
+            <Route 
+              exact path='/tasks/new' 
+              render={ (routerProps) => <AddTaskForm {...routerProps} options={this.state.categories} 
+                  submitTask={this.submitNewTask}/>
+              } 
+            />
+            <Route render={ () => <UserPage user_id={this.state.user}/> }/>
+          </Switch>
+        </div>
+      </BrowserRouter>
     );
   }
 

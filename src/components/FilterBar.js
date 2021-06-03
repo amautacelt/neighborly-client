@@ -15,7 +15,7 @@ class FilterBar extends Component {
     {
         return(
             <div>
-                <header>I'm the Filter Bar</header>
+                <header>Filtering Options</header>
                 <hr></hr>
                 {/* Category of Task  */}
                 <select name='category' onChange={(event) => this.props.filterTaskCategory(event.target.value, event.target.name)}>
