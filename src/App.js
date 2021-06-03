@@ -2,9 +2,10 @@ import "./App.css";
 import React, { Component } from "react";
 import TasksPage from "./components/TasksPage";
 import AddTaskForm from "./components/AddTaskForm";
-import {BrowserRouter, Route, Switch} from 'react-router-dom'
+import {BrowserRouter, Route, Switch, Redirect} from 'react-router-dom'
 import NavBar from "./components/NavBar";
 import UserPage from "./components/UserPage"
+import Login from "./components/Login"
 
 const tasksUrl = 'http://localhost:3000/tasks';
 const headers = {
@@ -19,21 +20,32 @@ class App extends Component {
     category: "",
     hasVolunteerFilter: false,
     tasks: [],
-    user: 1
+    user: undefined
   }
   //set up log in function
-  //login = (state_from_form) => {
-    // fetch('http://localhost:3000/login', {
-    //   method: 'POST',
-    //   headers,
-    //   body: JSON.stringify(state.user)
-    // })
-    // .then(res => res.json())
-    // .then(user => this.setState({user}))
-  // }
+  login = (userLoggingIn) => {
+    return fetch('http://localhost:3000/login', {
+      method: 'POST',
+      headers,
+      body: JSON.stringify(userLoggingIn)
+    })
+    .then(res => res.json())
+    .then(response => {
+      if(response.error)
+      {
+        alert(response.error)
+      } else {
+        this.setState({user: response.user})
+      }
+    })
+  }
 
   componentDidMount() {
-      fetch(tasksUrl)
+      this.getTasks();
+  }
+
+  getTasks = () => {
+    fetch(tasksUrl)
       .then(res => res.json())
       .then(tasks => {
         this.createCategories(tasks);
@@ -50,7 +62,8 @@ class App extends Component {
   }
 
   submitNewTask = (newtask) => {
-    newtask.user_id = this.state.user;
+    newtask.user_id = this.state.user.id;
+    // console.log()
     newtask.has_volunteer = false;
     fetch(tasksUrl, {
       method: 'POST',
@@ -62,6 +75,9 @@ class App extends Component {
   }
 
   
+  // logout = () => {
+  //   this.setState({user: undefined})
+  // }
 
   updateTask = (task) => {
     fetch(`${tasksUrl}/${task.id}`, {
@@ -103,8 +119,10 @@ class App extends Component {
     return (
       <BrowserRouter>
         <div className="App">
-          <NavBar />
+          <NavBar userLoggedIn={this.state.user ? true : false}/>
           <Switch>
+            <Route exact path='/' render={this.logout} />
+            <Route exact path='/login' render={(props) => <Login {...props} login={this.login}/>}/>
             <Route exact path='/tasks' render={ () => <TasksPage 
               tasks={
                 this.state.tasks.filter(this.state.category !== "" 
@@ -126,7 +144,15 @@ class App extends Component {
                   submitTask={this.submitNewTask}/>
               } 
             />
-            <Route render={ () => <UserPage user_id={this.state.user}/> }/>
+            <Route 
+              exact path='/home' 
+              render= { 
+                (routerProps) => (this.state.user 
+                  ? <UserPage {...routerProps} user={this.state.user} 
+                      getUserTasks={this.getTasks}
+                      userTasks={this.state.tasks.filter(task => task.user_id === this.state.user.id)}/> 
+                  : <Redirect to='/login' />) } 
+            />
           </Switch>
         </div>
       </BrowserRouter>

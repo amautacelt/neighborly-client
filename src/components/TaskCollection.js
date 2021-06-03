@@ -6,7 +6,6 @@ class TaskCollection extends Component {
         return (
             <div className="grid">
                 <div className="row">
-                    Collection from All Tasks in TaskCollection
                     {this.props.tasks.map((task) => (
                         <TaskCard key={task.id} task={task} categories={this.props.categories} updateTask={this.props.updateTask}/>
                     ))}
