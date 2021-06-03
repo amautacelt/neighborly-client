@@ -82,36 +82,27 @@ class App extends Component {
   updateTask = (task) => {
     fetch(`${tasksUrl}/${task.id}`, {
       method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
+      headers,
       body: JSON.stringify({task})
     })
     .then(res => res.json())
     .then((newTask) => {
       this.setState({
-        tasks: this.state.tasks.map((t) => (t.id === newTask.id ? newTask : t)),
-      });
+        tasks: this.state.tasks.map(t => t.id === newTask.id ? newTask : t),
+      })
     })
     .catch(err => console.error(err));
   }
 
 
   deleteTask = (task) => {
+    // console.log(task)
     fetch(`${tasksUrl}/${task.id}`, {
       method: 'DELETE',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      }
+      headers
     })
-      .then(() => 
-        this.setState({
-          tasks: [...this.state.tasks.filter((t) => t !== task)],
-        })
-      )
-      .catch((err) => console.log(err))
+    .then(() => this.setState({ tasks: [...this.state.tasks].filter((t) => t !== task)}))
+    .catch((err) => console.log(err))
   }
 
 
@@ -128,13 +119,12 @@ class App extends Component {
                 this.state.tasks.filter(this.state.category !== "" 
                 ? (task => task.category === this.state.category) 
                 : (task => task))
-                .filter(this.state.hasVolunteerFilter 
-                  ? task => !task.has_volunteer 
-                  : task => task)}
-                  categories={this.state.categories}
-                  filterTaskCategory={this.filterTaskCategory}
-                  filterHasVolunteer={this.filterHasVolunteer}
-                  updateTask={this.updateTask}
+                .filter(this.state.hasVolunteerFilter ? task => !task.has_volunteer : task => task)}
+              categories={this.state.categories}
+              filterTaskCategory={this.filterTaskCategory}
+              filterHasVolunteer={this.filterHasVolunteer}
+              updateTask={this.updateTask}
+              deleteTask={this.deleteTask}
                   />
                 }
             />

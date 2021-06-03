@@ -28,6 +28,7 @@ class TasksPage extends Component {
                 tasks={this.props.tasks}
                 categories={this.props.categories}
                 updateTask={this.props.updateTask}
+                deleteTask={this.props.deleteTask}
             />
         </div>
         )

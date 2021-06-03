@@ -9,7 +9,8 @@ class TaskCard extends Component {
     }
 
     showEditForm = () => {
-        this.setState({showEditForm: !this.state.showEditForm, buttonEditLabel: this.state.buttonEditLabel === "hide edit form" ? "edit" : "hide edit form"});
+        this.setState({showEditForm: !this.state.showEditForm, 
+            buttonEditLabel: this.state.buttonEditLabel === "hide edit form" ? "edit" : "hide edit form"});
     }
 
     render() {
@@ -21,8 +22,15 @@ class TaskCard extends Component {
                     <p>Description: {this.props.task.description}</p>
                     <p>Duration: {this.props.task.duration}</p>
                     <button onClick={this.showEditForm}> {this.state.buttonEditLabel}</button>
-                        {this.state.showEditForm ? <EditTaskForm task={this.props.task} options={this.props.categories} updateTask={this.props.updateTask}/> : null}
-                    <button className="delete-button">
+                        {
+                            this.state.showEditForm 
+                            ? <EditTaskForm task={this.props.task} 
+                                            options={this.props.categories} 
+                                            updateTask={this.props.updateTask}
+                                /> 
+                            : null
+                        }
+                    <button onClick={() => this.props.deleteTask(this.props.task)} className="delete-button">
                         delete
                     </button>
     

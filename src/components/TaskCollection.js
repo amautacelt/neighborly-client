@@ -7,7 +7,13 @@ class TaskCollection extends Component {
             <div className="grid">
                 <div className="row">
                     {this.props.tasks.map((task) => (
-                        <TaskCard key={task.id} task={task} categories={this.props.categories} updateTask={this.props.updateTask}/>
+                        <TaskCard 
+                            key={task.id} 
+                            task={task} 
+                            categories={this.props.categories} 
+                            updateTask={this.props.updateTask}
+                            deleteTask={this.props.deleteTask}
+                        />
                     ))}
                 </div>
             </div>

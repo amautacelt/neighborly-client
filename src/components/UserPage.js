@@ -5,14 +5,11 @@ class UserPage extends Component {
         user: this.props.user
     }
     
-    //  const [ username, address, avatar } = this.props.user;
-
     componentDidMount(){
         this.props.getUserTasks();
     }
 
     render(){
-        console.log(this.props)
         return(
             <div>
                 <h1>{this.state.user.username}</h1>
