@@ -8,6 +8,8 @@ import UserPage from "./components/UserPage"
 import Login from "./components/Login"
 
 const tasksUrl = 'http://localhost:3000/tasks';
+const volunteersUrl = "http://localhost:3000/volunteers"
+
 const headers = {
   'Content-Type': 'application/json',
   Accepts: 'application/json'
@@ -20,7 +22,8 @@ class App extends Component {
     category: "",
     hasVolunteerFilter: false,
     tasks: [],
-    user: undefined
+    user: undefined,
+    volunteeredTasks: []
   }
   //set up log in function
   login = (userLoggingIn) => {
@@ -48,9 +51,20 @@ class App extends Component {
     fetch(tasksUrl)
       .then(res => res.json())
       .then(tasks => {
+        console.log(tasks)
         this.createCategories(tasks);
         this.setState({tasks})
       })
+  }
+
+  getVolunteers = () => {
+    fetch(volunteersUrl)
+        .then(res => res.json())
+        .then(volunteeredTasks => {
+            const userVolunteeredTasks = volunteeredTasks.filter(task => task.user_id === this.state.user.id)
+            this.filterToUserVolunteeredTasks(userVolunteeredTasks);
+          }
+        )
   }
   
   filterTaskCategory = (category) => {
@@ -63,7 +77,6 @@ class App extends Component {
 
   submitNewTask = (newtask) => {
     newtask.user_id = this.state.user.id;
-    // console.log()
     newtask.has_volunteer = false;
     fetch(tasksUrl, {
       method: 'POST',
@@ -74,7 +87,7 @@ class App extends Component {
     .then((newTask) => this.setState({tasks: [...this.state.tasks, newTask]}))
   }
 
-  
+
   // logout = () => {
   //   this.setState({user: undefined})
   // }
@@ -96,7 +109,6 @@ class App extends Component {
 
 
   deleteTask = (task) => {
-    // console.log(task)
     fetch(`${tasksUrl}/${task.id}`, {
       method: 'DELETE',
       headers
@@ -139,8 +151,11 @@ class App extends Component {
               render= { 
                 (routerProps) => (this.state.user 
                   ? <UserPage {...routerProps} user={this.state.user} 
+                      getVolunteeredTasks={this.getVolunteers}
+                      volunteeredTasks={this.state.volunteeredTasks}
                       getUserTasks={this.getTasks}
-                      userTasks={this.state.tasks.filter(task => task.user_id === this.state.user.id)}/> 
+                      userTasks={this.state.tasks.filter(task => task.user_id === this.state.user.id)}
+                    /> 
                   : <Redirect to='/login' />) } 
             />
           </Switch>
@@ -161,6 +176,13 @@ class App extends Component {
     })
     this.setState({categories})  
   }
+  filterToUserVolunteeredTasks = (volunteeredTasks) => {
+    const userVolunteeredTaskIds = volunteeredTasks.map(volunteered => volunteered.task_id);
+    const allTasks = this.state.tasks;
+    let tasksUserVolunteered = allTasks.filter(task => userVolunteeredTaskIds.includes(task.id))
+    this.setState({ volunteeredTasks: tasksUserVolunteered })
+  }
 }
+
 
 export default App;

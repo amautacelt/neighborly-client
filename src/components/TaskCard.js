@@ -14,6 +14,7 @@ class TaskCard extends Component {
     }
 
     render() {
+        // console.log(this.props.task)
         return (
             <div className="column">
                 <div className="card">
@@ -21,6 +22,7 @@ class TaskCard extends Component {
                     <p>Category: {this.props.task.category}</p>
                     <p>Description: {this.props.task.description}</p>
                     <p>Duration: {this.props.task.duration}</p>
+                    <p>Has Volunteer: {this.props.task.has_volunteer }</p>
                     <button onClick={this.showEditForm}> {this.state.buttonEditLabel}</button>
                         {
                             this.state.showEditForm 
