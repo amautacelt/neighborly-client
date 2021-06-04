@@ -6,10 +6,8 @@ import NavBar from "./components/NavBar";
 import UserPage from "./components/UserPage"
 import TasksPage from "./components/TasksPage";
 import AddTaskForm from "./components/AddTaskForm";
-// import EditTaskForm from "./components/EditTaskForm"
 
 const tasksUrl = 'http://localhost:3000/tasks';
-const volunteersUrl = "http://localhost:3000/volunteers"
 
 const headers = {
   'Content-Type': 'application/json',
@@ -58,13 +56,8 @@ class App extends Component {
   }
 
   getVolunteers = () => {
-    fetch(volunteersUrl)
-        .then(res => res.json())
-        .then(volunteeredTasks => {
-            const userVolunteeredTasks = volunteeredTasks.filter(task => task.user_id === this.state.user.id)
-            this.filterToUserVolunteeredTasks(userVolunteeredTasks);
-          }
-        )
+    const volunteeredTasks = [...this.state.tasks].filter(task => task.volunteer === this.state.user.id)
+    this.setState({ volunteeredTasks })
   }
   
   filterTaskCategory = (category) => {
@@ -92,17 +85,21 @@ class App extends Component {
   // }
 
   updateTask = (task) => {
+    task.volunteer = task.has_volunteer === "true" ? this.state.user.id : null
+    console.log(task)
     fetch(`${tasksUrl}/${task.id}`, {
       method: 'PATCH',
       headers,
       body: JSON.stringify({task})
     })
     .then(res => res.json())
-    .then((newTask) => {
+    .then(
+      (newTask) => {
       this.setState({
         tasks: this.state.tasks.map(t => t.id === newTask.id ? newTask : t),
       })
-    })
+      }
+    )
     .catch(err => console.error(err));
   }
 
@@ -141,7 +138,7 @@ class App extends Component {
             <Route exact path='/' render={this.logout} />
             <Route exact path='/login' render={(props) => <Login {...props} login={this.login}/>}/>
             <Route exact path='/tasks' render={ () => 
-            // (this.state.user ? 
+            (this.state.user ? 
             <TasksPage 
               tasks={
                 this.state.tasks.filter(this.state.category !== "" 
@@ -151,13 +148,13 @@ class App extends Component {
               categories={this.state.categories}
               filterTaskCategory={this.filterTaskCategory}
               filterHasVolunteer={this.filterHasVolunteer}
-              // updateTask={this.updateTask}
-              // deleteTask={this.deleteTask}
-              // volunteerForTask={this.volunteerForTask}
-              //     
+              updateTask={this.updateTask}
+              deleteTask={this.deleteTask}
+              volunteerForTask={this.volunteerForTask}
+                  
               /> 
-              // : <Redirect to='/login'/> 
-              //   )
+              : <Redirect to='/login'/> 
+                )
               }
             />
             <Route 
@@ -168,7 +165,7 @@ class App extends Component {
                 : <Redirect to='/login' />)
               } 
             />
-            <Route 
+            {/* <Route 
                     exact path='/tasks/edit' 
                     render={ (routerProps) => (this.state.user 
                         ? <EditTaskForm {...routerProps} options={this.state.categories} 
@@ -176,7 +173,7 @@ class App extends Component {
                         deleteTask={this.deleteTask}/>
                         : <Redirect to='/login' />)
                     } 
-                />
+                /> */}
             <Route 
               exact path='/home' 
               render= { 

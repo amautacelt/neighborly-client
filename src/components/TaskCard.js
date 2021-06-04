@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import EditTaskForm from "./EditTaskForm";
+// import {Link} from 'react-router-dom'
 
 class TaskCard extends Component {
 
@@ -32,13 +33,10 @@ class TaskCard extends Component {
                                 /> 
                             : null
                         }
+                    {/* <button><Link to='/tasks/edit'>Edit Task</Link></button>     */}
                     <button onClick={() => this.props.deleteTask(this.props.task)} className="delete-button">
                         delete
                     </button>
-                    <button onClick={() => this.props.volunteerForTask(this.props.task)} >
-                        Volunteer
-                    </button>
-    
                 </div>
             </div>
         )

@@ -10,7 +10,7 @@ export default class EditTaskForm extends Component{
         category: this.props.task.category,
         user_id: this.props.task.user_id,
         has_volunteer: this.props.task.has_volunteer,
-        volunteer_id: this.props.task.volunteer
+        volunteer: this.props.task.volunteer
     }
 
     handleSubmit = (event) => {
@@ -46,6 +46,16 @@ export default class EditTaskForm extends Component{
                         </select>
                     </label>
                     <br></br>
+                     
+                        <div>
+                            <label>Volunteer for Task</label>
+                            <select name='volunteer' onChange={(event) => this.setState({has_volunteer: event.target.value})}>
+                                <option selected disabled value={this.props.task.has_volunteer}>{this.props.task.has_volunteer}</option>
+                                <option value='true'>Yes</option>
+                                <option value='false'>No</option>
+                            </select>
+                        </div>
+                    
                     <input type='submit' value='Edit Task'/>
                 </form>
             </div>
