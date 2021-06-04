@@ -19,12 +19,12 @@ class TaskCard extends Component {
         return (
             <div className="row">
                 <div className="col-sm-12">
-                    <div className="card">
+                    <div className="card h-100 display: flex border-info text-center text-white bg-dark mb-3 max-width: 18rem">
                         <div className="card-body">
-                            <h3 className="header">{this.props.task.name}</h3>
-                            <p>Category: {this.props.task.category}</p>
-                            <p>Description: {this.props.task.description}</p>
-                            <p>Duration: {this.props.task.duration}</p>
+                            <h5 className="card-title text-info">{this.props.task.name}</h5>
+                            <p className="card-subtitle mb-2 text-muted">Category: {this.props.task.category}</p>
+                            <p className="card-text">Description: {this.props.task.description}</p>
+                            <p className="card-footer text-muted border-info">Duration: {this.props.task.duration}</p>
                             <p>Has Volunteer: {this.props.task.has_volunteer ? "True" : "False"}</p>
                             <button className="btn btn-outline-warning btn-sm" onClick={this.showEditForm}> {this.state.buttonEditLabel}</button>
                                 {
@@ -35,8 +35,7 @@ class TaskCard extends Component {
                                         /> 
                                     : null
                                 }
-                            {/* <button><Link to='/tasks/edit'>Edit Task</Link></button>     */}
-                            <button className="btn btn-outline-danger btn-sm" onClick={() => this.props.deleteTask(this.props.task)} className="delete-button">
+                            <button className="btn btn-outline-danger btn-sm" onClick={() => this.props.deleteTask(this.props.task)}>
                                 delete
                             </button>
                         </div>

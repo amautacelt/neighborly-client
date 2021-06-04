@@ -23,22 +23,22 @@ export default class EditTaskForm extends Component{
             <div>Edit Form
                 <form onSubmit={this.handleSubmit}>
                     <label> Name of Task
-                        <input type='text' name='name' placeholder='Name' value={this.state.name} 
+                        <input class="mb-2 bg-warning text-dark" type='text' name='name' value={this.state.name} 
                         onChange={(event) => this.setState({name: event.target.value})}/>
                     </label>
                     <br></br>
                     <label> Duration of Task
-                        <input type='text' name='duration' placeholder='Duration' value={this.state.duration}
+                        <input class="mb-2 bg-warning text-dark" type='text' name='duration' value={this.state.duration}
                         onChange={(event) => this.setState({duration: event.target.value})}/>
                     </label>
                     <br></br>
                     <label> Description of Task
-                        <input type='text' name='description' placeholder='Description' value={this.state.description}
+                        <input class="mb-2 bg-warning text-dark" type='text' name='description' value={this.state.description}
                         onChange={(event) => this.setState({description: event.target.value})}/>
                     </label>
                     <br></br>
                     <label> Category of Task
-                        <select name='category' onChange={(event) => this.setState({category: event.target.value})}>Type of Task
+                        <select class="mb-2 bg-warning text-dark" name='category' onChange={(event) => this.setState({category: event.target.value})}>Type of Task
                             <option selected disabled value={this.state.category}>{this.state.category}</option>
                             {this.props.options.map(option => {
                                 return <option key={option} value={option}>{option}</option>
@@ -46,7 +46,7 @@ export default class EditTaskForm extends Component{
                         </select>
                     </label>
                     <br></br>
-                     
+                    
                         <div>
                             <label>Volunteer for Task</label>
                             <select name='volunteer' onChange={(event) => this.setState({has_volunteer: event.target.value})}>
@@ -56,7 +56,7 @@ export default class EditTaskForm extends Component{
                             </select>
                         </div>
                     
-                    <input type='submit' value='Edit Task'/>
+                        <input class="btn btn-outline-warning btn-sm" type='submit' value='submit edit'/>
                 </form>
             </div>
         )

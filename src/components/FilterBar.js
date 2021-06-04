@@ -15,7 +15,7 @@ class FilterBar extends Component {
     {
         return(
             <div>
-                <header>Filter Tasks</header>
+                <h4>Filter Tasks</h4>
                 {/* Category of Task  */}
                 <select name='category' onChange={(event) => this.props.filterTaskCategory(event.target.value, event.target.name)}>
                     <option selected value="">Choose Category</option>
@@ -23,7 +23,7 @@ class FilterBar extends Component {
                         return <option key={option} value={option}>{option}</option>
                     })}
                 </select>
-                <button onClick={this.handleClick}>{this.state.buttonLabel}</button>
+                <button className="btn btn-info btn-sm" onClick={this.handleClick}>{this.state.buttonLabel}</button>
                 <hr></hr>
             </div>
     )}
