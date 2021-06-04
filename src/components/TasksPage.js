@@ -6,15 +6,6 @@ import {Link} from 'react-router-dom'
 // const tasksUrl = 'http://localhost:3000/tasks';
 
 class TasksPage extends Component {
-    // state = {
-    //     tasks: [],
-    // }
-
-    // componentDidMount() {
-    //     fetch(tasksUrl)
-    //     .then(res => res.json())
-    //     .then(tasks => this.setState({tasks}))
-    // }
 
     render() {
         return (
@@ -29,6 +20,7 @@ class TasksPage extends Component {
                 categories={this.props.categories}
                 updateTask={this.props.updateTask}
                 deleteTask={this.props.deleteTask}
+                volunteerForTask={this.props.volunteerForTask}
             />
         </div>
         )

@@ -1,11 +1,12 @@
 import "./App.css";
 import React, { Component } from "react";
-import TasksPage from "./components/TasksPage";
-import AddTaskForm from "./components/AddTaskForm";
 import {BrowserRouter, Route, Switch, Redirect} from 'react-router-dom'
+import Login from "./components/Login"
 import NavBar from "./components/NavBar";
 import UserPage from "./components/UserPage"
-import Login from "./components/Login"
+import TasksPage from "./components/TasksPage";
+import AddTaskForm from "./components/AddTaskForm";
+// import EditTaskForm from "./components/EditTaskForm"
 
 const tasksUrl = 'http://localhost:3000/tasks';
 const volunteersUrl = "http://localhost:3000/volunteers"
@@ -51,7 +52,6 @@ class App extends Component {
     fetch(tasksUrl)
       .then(res => res.json())
       .then(tasks => {
-        console.log(tasks)
         this.createCategories(tasks);
         this.setState({tasks})
       })
@@ -87,7 +87,6 @@ class App extends Component {
     .then((newTask) => this.setState({tasks: [...this.state.tasks, newTask]}))
   }
 
-
   // logout = () => {
   //   this.setState({user: undefined})
   // }
@@ -113,7 +112,25 @@ class App extends Component {
       headers
     })
     .then(() => this.setState({ tasks: [...this.state.tasks].filter((t) => t !== task)}))
-    .catch((err) => console.log(err))
+    .catch((err) => console.error(err))
+  }
+
+  volunteerForTask = (task) => {
+    task.has_volunteer = true;
+    this.updateTask(task);
+    const volunteer = {
+      task_id: task.id,
+      user_id: this.state.user.id
+    }
+    fetch(volunteersUrl, {
+      method: 'POST',
+      headers,
+      body: JSON.stringify({volunteer})
+    })
+    .then(res => res.json())
+    .then(volunteeredTask => this.setState({volunteeredTasks: [...this.state.volunteeredTasks, volunteeredTask]}))
+    .catch(err => console.error(err));
+  
   }
 
   render() {
@@ -124,7 +141,7 @@ class App extends Component {
           <Switch>
             <Route exact path='/' render={this.logout} />
             <Route exact path='/login' render={(props) => <Login {...props} login={this.login}/>}/>
-            <Route exact path='/tasks' render={ () => <TasksPage 
+            <Route exact path='/tasks' render={ () => (this.state.user ? <TasksPage 
               tasks={
                 this.state.tasks.filter(this.state.category !== "" 
                 ? (task => task.category === this.state.category) 
@@ -135,8 +152,9 @@ class App extends Component {
               filterHasVolunteer={this.filterHasVolunteer}
               updateTask={this.updateTask}
               deleteTask={this.deleteTask}
-                  />
-                }
+              volunteerForTask={this.volunteerForTask}
+                  /> : <Redirect to='/login'/> )
+              }
             />
             <Route 
               exact path='/tasks/new' 
@@ -146,6 +164,14 @@ class App extends Component {
                 : <Redirect to='/login' />)
               } 
             />
+            {/* <Route 
+                    exact path='/tasks/edit' 
+                    render={ (routerProps) => (this.state.user 
+                        ? <EditTaskForm {...routerProps} options={this.state.categories} 
+                        submitTask={this.submitNewTask}/>
+                        : <Redirect to='/login' />)
+                    } 
+                /> */}
             <Route 
               exact path='/home' 
               render= { 

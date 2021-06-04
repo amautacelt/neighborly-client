@@ -13,6 +13,7 @@ class TaskCollection extends Component {
                             categories={this.props.categories} 
                             updateTask={this.props.updateTask}
                             deleteTask={this.props.deleteTask}
+                            volunteerForTask={this.props.volunteerForTask}
                         />
                     ))}
                 </div>

@@ -35,6 +35,9 @@ class TaskCard extends Component {
                     <button onClick={() => this.props.deleteTask(this.props.task)} className="delete-button">
                         delete
                     </button>
+                    <button onClick={() => this.props.volunteerForTask(this.props.task)} >
+                        Volunteer
+                    </button>
     
                 </div>
             </div>
