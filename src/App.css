@@ -36,3 +36,14 @@
     transform: rotate(360deg);
   }
 }
+
+.logincard {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  
+}
+
+.nav-item {
+  display: inline-block;
+}
