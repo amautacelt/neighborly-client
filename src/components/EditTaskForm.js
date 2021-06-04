@@ -9,7 +9,8 @@ export default class EditTaskForm extends Component{
         description: this.props.task.description,
         category: this.props.task.category,
         user_id: this.props.task.user_id,
-        volunteer: this.props.task.has_volunteer
+        has_volunteer: this.props.task.has_volunteer,
+        volunteer_id: this.props.task.volunteer
     }
 
     handleSubmit = (event) => {
