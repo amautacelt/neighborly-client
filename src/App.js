@@ -107,7 +107,6 @@ class App extends Component {
     .catch(err => console.error(err));
   }
 
-
   deleteTask = (task) => {
     fetch(`${tasksUrl}/${task.id}`, {
       method: 'DELETE',
@@ -116,7 +115,6 @@ class App extends Component {
     .then(() => this.setState({ tasks: [...this.state.tasks].filter((t) => t !== task)}))
     .catch((err) => console.log(err))
   }
-
 
   render() {
     return (
@@ -142,8 +140,10 @@ class App extends Component {
             />
             <Route 
               exact path='/tasks/new' 
-              render={ (routerProps) => <AddTaskForm {...routerProps} options={this.state.categories} 
+              render={ (routerProps) => (this.state.user 
+                ? <AddTaskForm {...routerProps} options={this.state.categories} 
                   submitTask={this.submitNewTask}/>
+                : <Redirect to='/login' />)
               } 
             />
             <Route 
