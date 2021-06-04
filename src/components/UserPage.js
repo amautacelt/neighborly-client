@@ -43,7 +43,7 @@ class UserPage extends Component {
                                 <ul> <strong className="text-info">Your Tasks</strong>
                                     {this.props.userTasks.map(task => <li key={task.id}>{task.name}</li>)}
                                 </ul>
-                                <ul> <strong>Tasks You've Volunteered For</strong>
+                                <ul> <strong className="text-info">Tasks You've Volunteered For</strong>
                                     {this.props.volunteeredTasks.map(task => <li key={task.id}>{task.name}</li>)}
                                 </ul>
                             </div>
